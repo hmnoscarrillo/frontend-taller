@@ -18,11 +18,19 @@ jobs:
 
       - name: Install
         run: |
-          if (Test-Path package.json) { npm ci --silent } else { Write-Output "No package.json - skipping npm install" }
+          if [ -f package.json ]; then
+            npm ci --silent
+          else
+            echo "No package.json - skipping npm install"
+          fi
 
       - name: Build
         run: |
-          if (Test-Path package.json) { npm run build --if-present } else { Write-Output "No package.json - skipping build" }
+          if [ -f package.json ]; then
+            npm run build --if-present
+          else
+            echo "No package.json - skipping build"
+          fi
 
       - name: Deploy to Vercel
         env:
